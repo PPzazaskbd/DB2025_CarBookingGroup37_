@@ -58,7 +58,7 @@ The database is structured into three primary modules to ensure data integrity a
 
 ### Sample Data
 The schema includes a sample customer record for testing:
-* **Test User:** 'John123'
-* **License:** '00007543'
+* **Test User:** `John123`
+* **License:** `00007543`
 ### ERD diagram 
 <img width="1634" height="917" alt="ERD Diagram from Pgadmin" src="https://github.com/user-attachments/assets/faa86517-5fa0-429b-80ff-7dc1b88b8e94" />
