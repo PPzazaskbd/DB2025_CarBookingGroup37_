@@ -6,14 +6,12 @@ FROM (
     SELECT 
         brand,
         total_bookings,
-        unique_customers,
         brand_revenue,
         DENSE_RANK() OVER (ORDER BY total_bookings DESC) AS booking_rank
     FROM (
         SELECT 
             brand,
             COUNT(car_id) AS total_bookings,
-            COUNT(DISTINCT customer_id) AS unique_customers,
             SUM(daily_revenue) AS brand_revenue
         FROM (
             SELECT 
@@ -30,10 +28,11 @@ FROM (
         HAVING SUM(daily_revenue) > (
             SELECT AVG(brand_revenue)
             FROM (
-                SELECT SUM(r.price_per_day * (r.return_date - r.pickup_date)) AS brand_revenue
+                SELECT SUM(price_per_day * (return_date - pickup_date)) AS brand_revenue
                 FROM "public"."car" c
                 JOIN "public"."Rental" r ON c.car_id = r.car_id
                 WHERE r.rental_status = true
+                  AND r.pickup_date >= CURRENT_DATE - INTERVAL '90 days'
                 GROUP BY c.brand
             ) avg_calc
         )
